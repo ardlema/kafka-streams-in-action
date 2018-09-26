@@ -44,6 +44,8 @@ public class KafkaStreamsYellingApp {
         Properties props = new Properties();
         props.put(StreamsConfig.APPLICATION_ID_CONFIG, "yelling_app_id");
         props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        //Aumentar/disminuir para comprobar el efecto de los threads en la asignación de tareas
+        props.put(StreamsConfig.NUM_STREAM_THREADS_CONFIG, "5");
 
         StreamsConfig streamsConfig = new StreamsConfig(props);
 
@@ -63,10 +65,5 @@ public class KafkaStreamsYellingApp {
         KafkaStreams kafkaStreams = new KafkaStreams(builder.build(),streamsConfig);
         LOG.info("Hello World Yelling App Started");
         kafkaStreams.start();
-        Thread.sleep(35000);
-        LOG.info("Shutting down the Yelling APP now");
-        kafkaStreams.close();
-        MockDataProducer.shutdown();
-
     }
 }
